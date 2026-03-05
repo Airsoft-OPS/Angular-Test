@@ -1,0 +1,79 @@
+<main class="home">
+
+    <div class="bg-orb bg-orb-1"></div>
+    <div class="bg-orb bg-orb-2"></div>
+    <div class="bg-grid"></div>
+
+    <section class="hero">
+
+        <div class="hero-badge">
+            <span class="badge-dot"></span>
+            Próximos eventos disponíveis
+        </div>
+
+        <h1 class="hero-title">
+            O campo de batalha<br>
+            <span class="accent">começa aqui.</span>
+        </h1>
+
+        <p class="hero-subtitle">
+            Cria o teu evento, recruta a tua equipa e entra em campo.<br>
+            A comunidade de airsoft que estavaS à espera.
+        </p>
+
+        <div class="hero-actions">
+            @if (supabase.currentUser()) {
+            <button class="btn-primary">
+                🎯 Criar Evento
+            </button>
+            <button class="btn-secondary">
+                Ver Eventos
+            </button>
+            } @else {
+            <button class="btn-primary">
+                🎯 Começar agora
+            </button>
+            <button class="btn-secondary">
+                Ver Eventos
+            </button>
+            }
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-value">+120</span>
+                <span class="stat-label">Jogadores</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <span class="stat-value">+34</span>
+                <span class="stat-label">Eventos realizados</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat">
+                <span class="stat-value">8</span>
+                <span class="stat-label">Eventos ativos</span>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <div class="feature-icon">🗺️</div>
+            <h3>Cria Eventos</h3>
+            <p>Define o local, data, número de vagas e regras. Em minutos tens o teu evento pronto.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⚔️</div>
+            <h3>Junta-te à Batalha</h3>
+            <p>Encontra eventos perto de ti, inscreve-te e aparece em campo pronto para combate.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🏆</div>
+            <h3>Constrói a tua Equipa</h3>
+            <p>Recruta jogadores, organiza equipas e domina o campo com estratégia.</p>
+        </div>
+    </section>
+
+</main>

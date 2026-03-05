@@ -36,10 +36,10 @@
             </div>
             }
 
-            @if (errorMsg()) {
+            @if (errorMsg().length > 0 && !loading()) {
             <div class="alert alert-error">{{ errorMsg() }}</div>
             }
-            @if (successMsg()) {
+            @if (successMsg().length > 0 && !loading()) {
             <div class="alert alert-success">{{ successMsg() }}</div>
             }
 

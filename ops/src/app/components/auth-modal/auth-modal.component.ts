@@ -26,12 +26,14 @@ export class AuthModalComponent {
   constructor(private supabase: SupabaseService) { }
 
   setMode(m: AuthMode) {
-    this.mode.set(m);
     this.errorMsg.set('');
     this.successMsg.set('');
     this.email = '';
     this.password = '';
     this.confirmPassword = '';
+    setTimeout(() => {
+      this.mode.set(m);
+    }, 10);
   }
 
   async submit() {
