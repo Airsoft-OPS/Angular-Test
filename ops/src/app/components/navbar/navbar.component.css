@@ -76,7 +76,7 @@
     align-items: center;
     gap: 7px;
     padding: 8px 16px;
-    background: #7c6af7;
+    background: rgb(34, 197, 94);
     color: #fff;
     font-size: 0.85rem;
     font-weight: 600;
@@ -87,7 +87,7 @@
 }
 
 .btn-login:hover {
-    background: #a78bfa;
+    background: rgb(74, 222, 128);
     transform: translateY(-1px);
 }
 

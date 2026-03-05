@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Roboto:wght@300;400;500;700&display=swap');
 
 *,
 *::before,
@@ -11,21 +11,21 @@
 :root {
     --bg: #0a0a0f;
     --bg-2: #111118;
-    --bg-3: #1a1a24;
-    --surface: #16161f;
-    --surface-2: #1e1e2a;
-    --border: rgba(255, 255, 255, 0.07);
-    --border-hover: rgba(255, 255, 255, 0.15);
-    --accent: #7c6af7;
-    --accent-2: #a78bfa;
-    --accent-glow: rgba(124, 106, 247, 0.3);
-    --text: #f0eeff;
-    --text-2: #9b97b8;
-    --text-3: #5c5878;
+    --bg-3: #0f1a13;
+    --surface: #0d1a10;
+    --surface-2: #122016;
+    --border: rgba(34, 197, 94, 0.1);
+    --border-hover: rgba(34, 197, 94, 0.25);
+    --accent: rgb(34, 197, 94);
+    --accent-2: rgb(74, 222, 128);
+    --accent-glow: rgba(34, 197, 94, 0.25);
+    --text: #f0fff4;
+    --text-2: #86efac;
+    --text-3: #4ade80;
     --success: #34d399;
     --error: #f87171;
-    --font-display: 'Syne', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
+    --font-display: 'Russo One', sans-serif;
+    --font-body: 'Roboto', sans-serif;
     --radius: 12px;
     --radius-lg: 20px;
     --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
