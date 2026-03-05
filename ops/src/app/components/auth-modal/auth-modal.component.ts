@@ -2,13 +2,14 @@ import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../services/supabase.service';
+import { LucideAngularModule } from 'lucide-angular';
 
 type AuthMode = 'login' | 'register';
 
 @Component({
   selector: 'app-auth-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LucideAngularModule],
   templateUrl: './auth-modal.component.html',
   styleUrls: ['./auth-modal.component.css']
 })

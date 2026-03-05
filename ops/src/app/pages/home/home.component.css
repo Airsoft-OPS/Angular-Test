@@ -233,21 +233,39 @@
 }
 
 .feature-icon {
-    font-size: 2rem;
+    width: 48px;
+    height: 48px;
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 14px;
+    line-height: 0;
+}
+
+a.btn-primary,
+a.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
 }
 
 .feature-card h3 {
     font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: normal;
     color: var(--text);
     margin-bottom: 8px;
 }
 
 .feature-card p {
     font-size: 0.85rem;
-    color: var(--text-2);
+    color: #a3c9ae;
     line-height: 1.65;
 }
 
@@ -259,12 +277,4 @@
     .stat-value {
         font-size: 1.3rem;
     }
-}
-
-a.btn-primary,
-a.btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
 }

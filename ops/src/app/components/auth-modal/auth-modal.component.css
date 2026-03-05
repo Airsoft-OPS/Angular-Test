@@ -226,3 +226,26 @@
         transform: rotate(360deg);
     }
 }
+
+.input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 12px;
+    color: #5a8a68;
+    pointer-events: none;
+    display: flex;
+}
+
+.input-wrap input {
+    width: 100%;
+    padding: 10px 12px 10px 38px;
+}
+
+.spin {
+    animation: spin 0.8s linear infinite;
+}

@@ -1,7 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SupabaseService } from '../../services/supabase.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'; 
+import { LucideAngularModule } from 'lucide-angular';
 
 export interface Evento {
   id: string;
@@ -19,7 +20,7 @@ export interface Evento {
 @Component({
   selector: 'app-eventos',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LucideAngularModule],
   templateUrl: './eventos.component.html',
   styleUrls: ['./eventos.component.css']
 })

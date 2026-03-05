@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SupabaseService } from '../../services/supabase.service';
 import { AuthModalComponent } from '../auth-modal/auth-modal.component';
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, AuthModalComponent],
+  imports: [CommonModule, RouterModule, AuthModalComponent, LucideAngularModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })

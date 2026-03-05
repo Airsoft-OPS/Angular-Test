@@ -1,9 +1,14 @@
 <div class="modal-backdrop" (click)="onBackdropClick($event)">
     <div class="modal">
 
-        <button class="modal-close" (click)="close.emit()">✕</button>
+        <button class="modal-close" (click)="close.emit()">
+            <lucide-icon name="x" [size]="16"></lucide-icon>
+        </button>
 
         <div class="modal-header">
+            <div class="modal-logo">
+                <lucide-icon name="crosshair" [size]="24" color="rgb(34,197,94)"></lucide-icon>
+            </div>
             <h2 class="modal-title">
                 {{ mode() === 'login' ? 'Bem-vindo de volta' : 'Criar conta' }}
             </h2>
@@ -19,41 +24,65 @@
         </div>
 
         <div class="modal-form">
+
+            <div class="field">
+                <label>Email</label>
+                <div class="input-wrap">
+                    <lucide-icon name="mail" [size]="15" class="input-icon"></lucide-icon>
+                    <input type="email" [(ngModel)]="email" placeholder="o.teu@email.com" [disabled]="loading()" />
+                </div>
+            </div>
+
             @if (mode() === 'register') {
             <div class="field">
                 <label>Username</label>
-                <input type="text" [(ngModel)]="username" placeholder="o_teu_username" [disabled]="loading()" />
+                <div class="input-wrap">
+                    <lucide-icon name="user-round" [size]="15" class="input-icon"></lucide-icon>
+                    <input type="text" [(ngModel)]="username" placeholder="o_teu_username" [disabled]="loading()" />
+                </div>
             </div>
             }
-            <div class="field">
-                <label>Email</label>
-                <input type="email" [(ngModel)]="email" placeholder="o.teu@email.com" [disabled]="loading()" />
-            </div>
 
             <div class="field">
                 <label>Password</label>
-                <input type="password" [(ngModel)]="password" placeholder="••••••••" [disabled]="loading()" />
+                <div class="input-wrap">
+                    <lucide-icon name="key-round" [size]="15" class="input-icon"></lucide-icon>
+                    <input type="password" [(ngModel)]="password" placeholder="••••••••" [disabled]="loading()" />
+                </div>
             </div>
 
             @if (mode() === 'register') {
             <div class="field">
                 <label>Confirmar Password</label>
-                <input type="password" [(ngModel)]="confirmPassword" placeholder="••••••••" [disabled]="loading()" />
+                <div class="input-wrap">
+                    <lucide-icon name="key-round" [size]="15" class="input-icon"></lucide-icon>
+                    <input type="password" [(ngModel)]="confirmPassword" placeholder="••••••••"
+                        [disabled]="loading()" />
+                </div>
             </div>
             }
 
             @if (errorMsg().length > 0 && !loading()) {
-            <div class="alert alert-error">{{ errorMsg() }}</div>
+            <div class="alert alert-error">
+                <lucide-icon name="alert-circle" [size]="15"></lucide-icon>
+                {{ errorMsg() }}
+            </div>
             }
             @if (successMsg().length > 0 && !loading()) {
-            <div class="alert alert-success">{{ successMsg() }}</div>
+            <div class="alert alert-success">
+                <lucide-icon name="check-circle" [size]="15"></lucide-icon>
+                {{ successMsg() }}
+            </div>
             }
 
             <button class="btn-submit" (click)="submit()" [disabled]="loading()">
-                @if (loading()) { <span class="spinner"></span> }
-                @else { {{ mode() === 'login' ? 'Entrar' : 'Criar conta' }} }
+                @if (loading()) {
+                <lucide-icon name="loader" [size]="16" class="spin"></lucide-icon>
+                } @else {
+                {{ mode() === 'login' ? 'Entrar' : 'Criar conta' }}
+                }
             </button>
-        </div>
 
+        </div>
     </div>
 </div>

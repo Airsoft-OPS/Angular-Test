@@ -11,34 +11,45 @@
             Próximos eventos disponíveis
         </div>
 
+        @if (supabase.currentUser()) {
+        <h1 class="hero-title">
+            Olá, <span class="accent">{{ supabase.currentUser()!.email!.split('@')[0] }}</span> 👋
+        </h1>
+        <p class="hero-subtitle">
+            Estás autenticado com sucesso. O teu campo de batalha está à tua espera.
+        </p>
+        } @else {
         <h1 class="hero-title">
             O campo de batalha<br>
             <span class="accent">começa aqui.</span>
         </h1>
-
         <p class="hero-subtitle">
             Cria o teu evento, recruta a tua equipa e entra em campo.<br>
-            A comunidade de airsoft que estavaS à espera.
+            A comunidade de airsoft que estavas à espera.
         </p>
+        }
 
         <div class="hero-actions">
             @if (supabase.currentUser()) {
             <a routerLink="/eventos" class="btn-primary">
-                🎯 Criar Evento
+                <lucide-icon name="target" [size]="16"></lucide-icon>
+                Criar Evento
             </a>
             <a routerLink="/eventos" class="btn-secondary">
+                <lucide-icon name="calendar" [size]="16"></lucide-icon>
                 Ver Eventos
             </a>
             } @else {
             <a routerLink="/eventos" class="btn-primary">
-                🎯 Começar agora
+                <lucide-icon name="target" [size]="16"></lucide-icon>
+                Começar agora
             </a>
             <a routerLink="/eventos" class="btn-secondary">
+                <lucide-icon name="calendar" [size]="16"></lucide-icon>
                 Ver Eventos
             </a>
             }
         </div>
-
 
         <div class="hero-stats">
             <div class="stat">
@@ -61,17 +72,23 @@
 
     <section class="features">
         <div class="feature-card">
-            <div class="feature-icon">🗺️</div>
+            <div class="feature-icon">
+                <lucide-icon name="map-pin" [size]="24" color="rgb(34,197,94)"></lucide-icon>
+            </div>
             <h3>Cria Eventos</h3>
             <p>Define o local, data, número de vagas e regras. Em minutos tens o teu evento pronto.</p>
         </div>
         <div class="feature-card">
-            <div class="feature-icon">⚔️</div>
+            <div class="feature-icon">
+                <lucide-icon name="crosshair" [size]="24" color="rgb(34,197,94)"></lucide-icon>
+            </div>
             <h3>Junta-te à Batalha</h3>
             <p>Encontra eventos perto de ti, inscreve-te e aparece em campo pronto para combate.</p>
         </div>
         <div class="feature-card">
-            <div class="feature-icon">🏆</div>
+            <div class="feature-icon">
+                <lucide-icon name="users" [size]="24" color="rgb(34,197,94)"></lucide-icon>
+            </div>
             <h3>Constrói a tua Equipa</h3>
             <p>Recruta jogadores, organiza equipas e domina o campo com estratégia.</p>
         </div>
