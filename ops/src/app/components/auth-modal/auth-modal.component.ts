@@ -26,7 +26,7 @@ export class AuthModalComponent {
   errorMsg = signal('');
   successMsg = signal('');
 
-  constructor(private supabase: SupabaseService,  private toast: ToastService) { }
+  constructor(private supabase: SupabaseService, private toast: ToastService) { }
 
   setMode(m: AuthMode) {
     this.errorMsg.set('');
@@ -83,12 +83,15 @@ export class AuthModalComponent {
     try {
       if (this.mode() === 'login') {
         await this.supabase.signIn(this.email, this.password);
+        await new Promise(resolve => setTimeout(resolve, 500));
         const username = this.supabase.currentPerfil()?.username || this.email.split('@')[0];
         this.toast.show(`Bem-vindo de volta, ${username} !`);
         this.close.emit();
       } else {
         await this.supabase.signUp(this.email, this.password, this.username);
-        this.toast.show('Bem-vindo! Conta criada com sucesso.');
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const username = this.supabase.currentPerfil()?.username || this.email.split('@')[0];
+        this.toast.show(`Bem-vindo, ${username}! Conta criada com sucesso.`);
         this.close.emit();
       }
     } catch (err: any) {
