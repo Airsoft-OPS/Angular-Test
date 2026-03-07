@@ -85,7 +85,7 @@ export class AuthModalComponent {
         this.close.emit();
       } else {
         await this.supabase.signUp(this.email, this.password, this.username);
-        this.successMsg.set('Conta criada! Verifica o teu email.');
+        this.close.emit();
       }
     } catch (err: any) {
       this.errorMsg.set(err.message || 'Ocorreu um erro. Tenta novamente.');

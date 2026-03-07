@@ -50,6 +50,10 @@ export class SupabaseService {
       }
     });
     if (error) throw error;
+
+    // Login automático após registo
+    await this.signIn(email, password);
+
     return data;
   }
 
