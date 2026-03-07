@@ -1,0 +1,352 @@
+<main class="detalhe-page">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-grid"></div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <lucide-icon
+        name="loader"
+        [size]="36"
+        class="spin"
+        color="rgb(34,197,94)"
+      ></lucide-icon>
+      <p>A carregar evento...</p>
+    </div>
+  }
+
+  @if (error().length > 0) {
+    <div class="alert alert-error">
+      <lucide-icon name="alert-circle" [size]="15"></lucide-icon>
+      {{ error() }}
+    </div>
+  }
+
+  @if (!loading() && event()) {
+    <button class="btn-back" (click)="goBack()">
+      <lucide-icon name="arrow-left" [size]="16"></lucide-icon>
+      Voltar aos eventos
+    </button>
+    <div class="detalhe-layout">
+      <div class="detalhe-main">
+        <div class="evento-hero">
+          <div class="hero-overlay"></div>
+          <div class="hero-badges">
+            <span class="badge" [class]="getTierClass(event()!.tier_minimo)">
+              {{ getTierLabel(event()!.tier_minimo) }}
+            </span>
+            @if (event()!.privado) {
+              <span class="badge badge-privado">
+                <lucide-icon name="lock" [size]="11"></lucide-icon>
+                Privado
+              </span>
+            }
+            @if (event()!.event_type) {
+              <span class="badge badge-tipo">{{ event()!.event_type }}</span>
+            }
+          </div>
+          <div class="hero-rating">
+            <div class="stars-row">
+              @for (star of starsArray(); track star) {
+                <lucide-icon
+                  name="star"
+                  [size]="16"
+                  [class]="
+                    star <= averageRating() ? 'star-filled' : 'star-empty'
+                  "
+                >
+                </lucide-icon>
+              }
+            </div>
+            <span class="rating-value">{{ roundedAverage() }}</span>
+            <span class="rating-count">{{ reviews().length }} reviews</span>
+          </div>
+        </div>
+        <div class="evento-content">
+          <h1 class="evento-titulo">{{ event()!.titulo }}</h1>
+          <p class="evento-descricao">{{ event()!.descricao }}</p>
+        </div>
+        <div class="reviews-section">
+          <h2 class="section-title">
+            <lucide-icon
+              name="message-square"
+              [size]="20"
+              color="rgb(34,197,94)"
+            ></lucide-icon>
+            Reviews
+          </h2>
+          @if (supabase.currentUser() && registered()) {
+            <div class="review-form">
+              <h3 class="form-title">Deixa a tua Review</h3>
+
+              <div class="rating-input">
+                <span class="field-label">A tua Classificação</span>
+                <div class="stars-interactive">
+                  @for (star of starsArray(); track star) {
+                    <button
+                      class="star-btn"
+                      (mouseenter)="newRatingHover.set(star)"
+                      (mouseleave)="newRatingHover.set(0)"
+                      (click)="newRating.set(star)"
+                    >
+                      <lucide-icon
+                        name="star"
+                        [size]="24"
+                        [class]="
+                          star <= (newRatingHover() || newRating())
+                            ? 'star-filled'
+                            : 'star-empty'
+                        "
+                      >
+                      </lucide-icon>
+                    </button>
+                  }
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="field-label">O teu Comentário</label>
+                <textarea
+                  class="review-textarea"
+                  [(ngModel)]="newComment"
+                  placeholder="Conta-nos a tua experiência..."
+                  rows="4"
+                >
+                </textarea>
+              </div>
+
+              @if (reviewError().length > 0) {
+                <div class="alert alert-error">
+                  <lucide-icon name="alert-circle" [size]="14"></lucide-icon>
+                  {{ reviewError() }}
+                </div>
+              }
+              @if (reviewSuccess().length > 0) {
+                <div class="alert alert-success">
+                  <lucide-icon name="check-circle" [size]="14"></lucide-icon>
+                  {{ reviewSuccess() }}
+                </div>
+              }
+
+              <button
+                class="btn-submit-review"
+                (click)="submitReview()"
+                [disabled]="reviewLoading()"
+              >
+                @if (reviewLoading()) {
+                  <lucide-icon
+                    name="loader"
+                    [size]="15"
+                    class="spin"
+                  ></lucide-icon>
+                } @else {
+                  <lucide-icon name="send" [size]="15"></lucide-icon>
+                }
+                Submeter Review
+              </button>
+            </div>
+          }
+          @if (reviews().length === 0) {
+            <div class="no-reviews">
+              <lucide-icon
+                name="message-square"
+                [size]="32"
+                color="rgba(34,197,94,0.3)"
+              ></lucide-icon>
+              <p>Ainda não há reviews. Sê o primeiro!</p>
+            </div>
+          }
+
+          <div class="reviews-list">
+            @for (review of reviews(); track review.id) {
+              <div class="review-card">
+                <div class="review-header">
+                  <div class="reviewer-avatar">{{ review.avatar_initial }}</div>
+                  <div class="reviewer-info">
+                    <span class="reviewer-name">{{ review.username }}</span>
+                    <span class="review-date">{{
+                      formatDateShort(review.created_at)
+                    }}</span>
+                  </div>
+                  <div class="review-stars">
+                    @for (star of starsArray(); track star) {
+                      <lucide-icon
+                        name="star"
+                        [size]="13"
+                        [class]="
+                          star <= review.rating ? 'star-filled' : 'star-empty'
+                        "
+                      >
+                      </lucide-icon>
+                    }
+                  </div>
+                </div>
+                <p class="review-comentario">{{ review.comment }}</p>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <aside class="detalhe-sidebar">
+        @if (supabase.currentUser()) {
+          @if (canRegister()) {
+            <button
+              class="btn-registar"
+              [class.btn-cancelar]="registered()"
+              [disabled]="
+                registerLoading() || (availableSlots() === 0 && !registered())
+              "
+              (click)="toggleRegistration()"
+            >
+              @if (registerLoading()) {
+                <lucide-icon
+                  name="loader"
+                  [size]="16"
+                  class="spin"
+                ></lucide-icon>
+              } @else if (registered()) {
+                <lucide-icon name="user-minus" [size]="16"></lucide-icon>
+              } @else {
+                <lucide-icon name="user-plus" [size]="16"></lucide-icon>
+              }
+              {{
+                registered()
+                  ? "Cancelar Inscrição"
+                  : availableSlots() === 0
+                    ? "Esgotado"
+                    : "Registar Agora"
+              }}
+            </button>
+          } @else {
+            <div class="tier-lock">
+              <lucide-icon
+                name="lock"
+                [size]="18"
+                color="rgb(251,191,36)"
+              ></lucide-icon>
+              <span
+                >Este evento requer tier
+                <strong>{{ getTierLabel(event()!.tier_minimo) }}</strong></span
+              >
+            </div>
+          }
+        } @else {
+          <div class="tier-lock tier-lock-auth">
+            <lucide-icon
+              name="user"
+              [size]="18"
+              color="rgb(34,197,94)"
+            ></lucide-icon>
+            <span>Faz login para te inscreveres</span>
+          </div>
+        }
+
+        @if (registerMsg().length > 0) {
+          <div
+            class="alert"
+            [class.alert-success]="registered()"
+            [class.alert-error]="!registered()"
+          >
+            {{ registerMsg() }}
+          </div>
+        }
+        <div class="info-card">
+          <div class="info-row">
+            <div class="info-icon-wrap">
+              <lucide-icon
+                name="calendar"
+                [size]="18"
+                color="rgb(34,197,94)"
+              ></lucide-icon>
+            </div>
+            <div class="info-content">
+              <span class="info-label">Data</span>
+              <span class="info-value">{{
+                formatDate(event()!.data_evento)
+              }}</span>
+            </div>
+          </div>
+
+          <div class="info-divider"></div>
+
+          <div class="info-row">
+            <div class="info-icon-wrap">
+              <lucide-icon
+                name="map-pin"
+                [size]="18"
+                color="rgb(34,197,94)"
+              ></lucide-icon>
+            </div>
+            <div class="info-content">
+              <span class="info-label">Localização</span>
+              <span class="info-value">{{ event()!.localizacao }}</span>
+            </div>
+          </div>
+
+          @if (event()!.event_type) {
+            <div class="info-divider"></div>
+            <div class="info-row">
+              <div class="info-icon-wrap">
+                <lucide-icon
+                  name="tag"
+                  [size]="18"
+                  color="rgb(34,197,94)"
+                ></lucide-icon>
+              </div>
+              <div class="info-content">
+                <span class="info-label">Tipo de Evento</span>
+                <span class="badge badge-tipo">{{ event()!.event_type }}</span>
+              </div>
+            </div>
+          }
+          <div class="info-divider"></div>
+          <div class="info-row">
+            <div class="info-icon-wrap">
+              <lucide-icon
+                name="users"
+                [size]="18"
+                color="rgb(34,197,94)"
+              ></lucide-icon>
+            </div>
+            <div class="info-content">
+              <span class="info-label">Jogadores</span>
+              <span class="info-value vagas-value">
+                {{ event()?.slots_taken ?? 0 }}/{{ event()!.vagas }}
+              </span>
+              <div class="vagas-bar">
+                <div
+                  class="vagas-fill"
+                  [style.width.%]="slotsPercentage()"
+                ></div>
+              </div>
+              <span class="vagas-restantes">
+                @if (availableSlots() > 0) {
+                  {{ availableSlots() }} vagas disponíveis
+                } @else {
+                  <span class="esgotado">Evento esgotado</span>
+                }
+              </span>
+            </div>
+          </div>
+        </div>
+        @if (reviews().length > 0) {
+          <div class="rating-summary">
+            <span class="rating-big">{{ roundedAverage() }}</span>
+            <div class="stars-row">
+              @for (star of starsArray(); track star) {
+                <lucide-icon
+                  name="star"
+                  [size]="18"
+                  [class]="
+                    star <= averageRating() ? 'star-filled' : 'star-empty'
+                  "
+                >
+                </lucide-icon>
+              }
+            </div>
+            <span class="rating-total">{{ reviews().length }} avaliações</span>
+          </div>
+        }
+      </aside>
+    </div>
+  }
+</main>
