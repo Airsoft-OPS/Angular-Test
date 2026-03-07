@@ -31,20 +31,20 @@
 
         <div class="hero-actions">
             @if (supabase.currentUser()) {
-            <a routerLink="/eventos" class="btn-primary">
+            <a routerLink="/events" class="btn-primary">
                 <lucide-icon name="target" [size]="16"></lucide-icon>
                 Criar Evento
             </a>
-            <a routerLink="/eventos" class="btn-secondary">
+            <a routerLink="/events" class="btn-secondary">
                 <lucide-icon name="calendar" [size]="16"></lucide-icon>
                 Ver Eventos
             </a>
             } @else {
-            <a routerLink="/eventos" class="btn-primary">
+            <a routerLink="/events" class="btn-primary">
                 <lucide-icon name="target" [size]="16"></lucide-icon>
                 Começar agora
             </a>
-            <a routerLink="/eventos" class="btn-secondary">
+            <a routerLink="/events" class="btn-secondary">
                 <lucide-icon name="calendar" [size]="16"></lucide-icon>
                 Ver Eventos
             </a>
