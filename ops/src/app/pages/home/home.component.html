@@ -11,12 +11,12 @@
             Próximos eventos disponíveis
         </div>
 
-        @if (supabase.currentUser()) {
+        @if (supabase.currentPerfil()) {
         <h1 class="hero-title">
-            Olá, <span class="accent">{{ supabase.currentUser()!.email!.split('@')[0] }}</span> 👋
+            Olá, <span class="accent">{{ supabase.currentPerfil()!.primeiro_nome }} !</span>
         </h1>
         <p class="hero-subtitle">
-            Estás autenticado com sucesso. O teu campo de batalha está à tua espera.
+            Estás autenticado com sucesso. O campo de batalha está à tua espera.
         </p>
         } @else {
         <h1 class="hero-title">
