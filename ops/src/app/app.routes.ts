@@ -3,7 +3,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { EventsComponent } from './pages/events/events.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { ResetPasswordGuard } from './guards/reset-password.guard';
-import { EventDetailsComponent} from './pages/event-detaail/event-details.component';
+import { EventDetailsComponent } from './pages/event-details/event-details.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
