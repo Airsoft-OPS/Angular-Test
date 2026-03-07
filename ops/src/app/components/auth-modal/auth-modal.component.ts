@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LucideAngularModule } from 'lucide-angular';
 import { SupabaseService } from '../../services/supabase.service';
+import { ToastService } from '../../services/toast.service';
 
 type AuthMode = 'login' | 'register' | 'reset';
 
@@ -26,7 +27,7 @@ export class AuthModalComponent {
   errorMsg = signal('');
   successMsg = signal('');
 
-  constructor(private supabase: SupabaseService) { }
+  constructor(private supabase: SupabaseService, private toast: ToastService) { }
 
   setMode(m: AuthMode) {
     this.errorMsg.set('');
