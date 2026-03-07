@@ -19,13 +19,13 @@ export interface Evento {
 }
 
 @Component({
-  selector: 'app-eventos',
+  selector: 'app-events',
   standalone: true,
   imports: [CommonModule, FormsModule, LucideAngularModule, RouterModule],
-  templateUrl: './eventos.component.html',
-  styleUrls: ['./eventos.component.css'],
+  templateUrl: './events.component.html',
+  styleUrls: ['./events.component.css'],
 })
-export class EventosComponent implements OnInit {
+export class EventsComponent implements OnInit {
   eventos = signal<Evento[]>([]);
   loading = signal(true);
   erro = signal('');
