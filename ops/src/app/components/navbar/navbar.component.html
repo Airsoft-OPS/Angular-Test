@@ -3,7 +3,11 @@
     <!-- Logo -->
     <a routerLink="/" class="nav-logo">
       <div class="logo-icon">
-        <lucide-icon name="crosshair" [size]="18" color="rgb(34,197,94)"></lucide-icon>
+        <lucide-icon
+          name="crosshair"
+          [size]="18"
+          color="rgb(34,197,94)"
+        ></lucide-icon>
       </div>
       <span class="logo-text">OPS</span>
     </a>
@@ -11,7 +15,12 @@
     <!-- Nav links -->
     <ul class="nav-links">
       <li>
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        <a
+          routerLink="/"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Home</a
+        >
       </li>
       <li><a routerLink="/events" routerLinkActive="active">Eventos</a></li>
       <li><a routerLink="/about" routerLinkActive="active">About</a></li>
@@ -20,31 +29,35 @@
     <!-- Auth area -->
     <div class="nav-auth">
       @if (supabase.currentUser() && supabase.currentPerfil()) {
-      <div class="user-info">
-        <div class="user-avatar">
-          {{ supabase.currentPerfil()!.primeiro_nome![0].toUpperCase() }}
+        <div class="user-info">
+          <a routerLink="/profile" class="user-avatar-link">
+            <div class="user-avatar">
+              @if (supabase.currentPerfil()?.avatar_url) {
+                <img
+                  [src]="supabase.currentPerfil()!.avatar_url"
+                  alt="Avatar"
+                />
+              } @else {
+                {{
+                  (supabase.currentPerfil()!.username || "?")[0].toUpperCase()
+                }}
+              }
+            </div>
+          </a>
+          <span class="user-name">
+            {{ supabase.currentPerfil()?.username }}
+          </span>
+          <button class="btn-logout" (click)="logout()">Sair</button>
         </div>
-        @if(supabase.currentPerfil()?.avatar_url) {
-        <span class="user_avatar">
-          <img [src]="supabase.currentPerfil()!.avatar_url" alt="User Avatar">
-        </span>
-        }
-        @else {
-        <span class="user-email">
-          {{ supabase.currentPerfil()?.primeiro_nome }} {{ supabase.currentPerfil()?.ultimo_nome }}
-        </span>
-        }
-        <button class="btn-logout" (click)="logout()">Sair</button>
-      </div>
       } @else {
-      <button class="btn-login" (click)="openModal()">
-        Login / Registar
-      </button>
+        <button class="btn-login" (click)="openModal()">
+          Login / Registar
+        </button>
       }
     </div>
   </div>
 </nav>
 
 @if (showModal()) {
-<app-auth-modal (close)="closeModal()"></app-auth-modal>
+  <app-auth-modal (close)="closeModal()"></app-auth-modal>
 }

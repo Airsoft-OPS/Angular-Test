@@ -1,0 +1,350 @@
+<main class="profile-page">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-grid"></div>
+
+  @if (loading()) {
+    <div class="loading-state">
+      <lucide-icon
+        name="loader"
+        [size]="36"
+        class="spin"
+        color="rgb(34,197,94)"
+      ></lucide-icon>
+      <p>A carregar perfil...</p>
+    </div>
+  }
+
+  @if (!loading() && perfil()) {
+    @let p = perfil()!;
+    @let u = user()!;
+
+    <div class="profile-layout">
+      <!-- ── Sidebar ── -->
+      <aside class="profile-sidebar">
+        <div class="identity-card">
+          <div class="avatar-wrap">
+            @if (p.avatar_url) {
+              <img class="avatar-img" [src]="p.avatar_url" alt="Avatar" />
+            } @else {
+              <div class="avatar-placeholder">{{ getAvatarInitial() }}</div>
+            }
+            <div class="avatar-glow"></div>
+          </div>
+
+          <h2 class="identity-name">{{ p.username }}</h2>
+          <span class="identity-email">{{ u.email }}</span>
+
+          <span class="tier-badge" [class]="getTierClass(p.tier)">
+            @if (p.tier === "admin") {
+              <lucide-icon name="shield" [size]="11"></lucide-icon>
+            } @else if (p.tier === "pro+") {
+              <lucide-icon name="zap" [size]="11"></lucide-icon>
+            } @else if (p.tier === "pro") {
+              <lucide-icon name="star" [size]="11"></lucide-icon>
+            }
+            {{ getTierLabel(p.tier) }}
+          </span>
+        </div>
+
+        <div class="stats-card">
+          <div class="stat-row">
+            <div class="stat-icon-wrap">
+              <lucide-icon
+                name="target"
+                [size]="16"
+                color="rgb(34,197,94)"
+              ></lucide-icon>
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Eventos criados</span>
+              <span class="stat-value">{{ eventsCreated() }}</span>
+            </div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-row">
+            <div class="stat-icon-wrap">
+              <lucide-icon
+                name="calendar"
+                [size]="16"
+                color="rgb(34,197,94)"
+              ></lucide-icon>
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Inscrições</span>
+              <span class="stat-value">{{ eventsJoined() }}</span>
+            </div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-row">
+            <div class="stat-icon-wrap">
+              <lucide-icon
+                name="message-square"
+                [size]="16"
+                color="rgb(34,197,94)"
+              ></lucide-icon>
+            </div>
+            <div class="stat-content">
+              <span class="stat-label">Reviews escritas</span>
+              <span class="stat-value">{{ reviewsWritten() }}</span>
+            </div>
+          </div>
+        </div>
+
+        <a routerLink="/events" class="sidebar-link">
+          <lucide-icon name="calendar" [size]="15"></lucide-icon>
+          Ver eventos
+        </a>
+      </aside>
+
+      <!-- ── Main ── -->
+      <div class="profile-main">
+        <div class="tab-bar">
+          <button
+            class="tab-btn"
+            [class.active]="activeTab() === 'overview'"
+            (click)="setTab('overview')"
+          >
+            Visão Geral
+          </button>
+          <button
+            class="tab-btn"
+            [class.active]="activeTab() === 'edit'"
+            (click)="setTab('edit')"
+          >
+            Editar Perfil
+          </button>
+          <button
+            class="tab-btn"
+            [class.active]="activeTab() === 'security'"
+            (click)="setTab('security')"
+          >
+            Segurança
+          </button>
+        </div>
+
+        <!-- Overview -->
+        @if (activeTab() === "overview") {
+          <div class="tab-content">
+            <h2 class="section-title">
+              <lucide-icon
+                name="user"
+                [size]="20"
+                color="rgb(34,197,94)"
+              ></lucide-icon>
+              O teu Perfil
+            </h2>
+            <div class="info-grid">
+              <div class="info-block">
+                <span class="info-label">Username</span>
+                <span class="info-value">{{ p.username || "—" }}</span>
+              </div>
+              <div class="info-block">
+                <span class="info-label">Nome</span>
+                <span class="info-value"
+                  >{{ p.primeiro_nome }} {{ p.ultimo_nome }}</span
+                >
+              </div>
+              <div class="info-block">
+                <span class="info-label">Email</span>
+                <span class="info-value">{{ u.email }}</span>
+              </div>
+              <div class="info-block">
+                <span class="info-label">Tier</span>
+                <span class="tier-badge" [class]="getTierClass(p.tier)">
+                  {{ getTierLabel(p.tier) }}
+                </span>
+              </div>
+              <div class="info-block">
+                <span class="info-label">Membro desde</span>
+                <span class="info-value">{{
+                  u.created_at | date: "MMMM yyyy"
+                }}</span>
+              </div>
+            </div>
+
+            @if (p.tier === "free") {
+              <div class="upgrade-banner">
+                <div class="upgrade-icon">
+                  <lucide-icon
+                    name="crown"
+                    [size]="22"
+                    color="rgb(251,191,36)"
+                  ></lucide-icon>
+                </div>
+                <div class="upgrade-text">
+                  <strong>Muda para Pro</strong>
+                  <span
+                    >Acede a eventos exclusivos e funcionalidades
+                    avançadas.</span
+                  >
+                </div>
+                <button class="btn-upgrade">Upgrade</button>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Edit -->
+        @if (activeTab() === "edit") {
+          <div class="tab-content">
+            <h2 class="section-title">Editar Perfil</h2>
+            <div class="edit-form">
+              <div class="field">
+                <label class="field-label">Username</label>
+                <div class="input-wrap">
+                  <input
+                    type="text"
+                    [(ngModel)]="editUsername"
+                    placeholder="O teu username"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label class="field-label">URL do Avatar</label>
+                <div class="input-wrap">
+                  <input
+                    type="url"
+                    [(ngModel)]="editAvatarUrl"
+                    placeholder="https://..."
+                  />
+                </div>
+                @if (editAvatarUrl) {
+                  <div class="avatar-preview">
+                    <img
+                      [src]="editAvatarUrl"
+                      alt="Preview"
+                      (error)="editAvatarUrl = ''"
+                    />
+                    <span>Preview</span>
+                  </div>
+                }
+              </div>
+
+              @if (errorMsg().length > 0) {
+                <div class="alert alert-error">
+                  <lucide-icon name="alert-circle" [size]="14"></lucide-icon>
+                  {{ errorMsg() }}
+                </div>
+              }
+              @if (successMsg().length > 0) {
+                <div class="alert alert-success">
+                  <lucide-icon name="check-circle" [size]="14"></lucide-icon>
+                  {{ successMsg() }}
+                </div>
+              }
+
+              <button
+                class="btn-save"
+                (click)="saveProfile()"
+                [disabled]="saveLoading()"
+              >
+                @if (saveLoading()) {
+                  <lucide-icon
+                    name="loader"
+                    [size]="15"
+                    class="spin"
+                  ></lucide-icon>
+                } @else {
+                  <lucide-icon name="save" [size]="15"></lucide-icon>
+                }
+                Guardar alterações
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- Security -->
+        @if (activeTab() === "security") {
+          <div class="tab-content">
+            <h2 class="section-title">
+              <lucide-icon
+                name="lock"
+                [size]="20"
+                color="rgb(34,197,94)"
+              ></lucide-icon>
+              Segurança
+            </h2>
+
+            <div class="edit-form">
+              <h3 class="subsection-title">Alterar Password</h3>
+              <div class="field">
+                <label class="field-label">Nova Password</label>
+                <div class="input-wrap">
+                  <lucide-icon
+                    name="lock"
+                    [size]="15"
+                    class="input-icon"
+                  ></lucide-icon>
+                  <input
+                    type="password"
+                    [(ngModel)]="newPassword"
+                    placeholder="Mínimo 6 caracteres"
+                  />
+                </div>
+              </div>
+              <div class="field">
+                <label class="field-label">Confirmar Password</label>
+                <div class="input-wrap">
+                  <lucide-icon
+                    name="lock"
+                    [size]="15"
+                    class="input-icon"
+                  ></lucide-icon>
+                  <input
+                    type="password"
+                    [(ngModel)]="confirmPassword"
+                    placeholder="Repete a nova password"
+                  />
+                </div>
+              </div>
+
+              @if (passwordErrorMsg().length > 0) {
+                <div class="alert alert-error">
+                  <lucide-icon name="alert-circle" [size]="14"></lucide-icon>
+                  {{ passwordErrorMsg() }}
+                </div>
+              }
+              @if (passwordSuccessMsg().length > 0) {
+                <div class="alert alert-success">
+                  <lucide-icon name="check-circle" [size]="14"></lucide-icon>
+                  {{ passwordSuccessMsg() }}
+                </div>
+              }
+
+              <button
+                class="btn-save"
+                (click)="changePassword()"
+                [disabled]="passwordLoading()"
+              >
+                @if (passwordLoading()) {
+                  <lucide-icon
+                    name="loader"
+                    [size]="15"
+                    class="spin"
+                  ></lucide-icon>
+                } @else {
+                  <lucide-icon name="shield-check" [size]="15"></lucide-icon>
+                }
+                Alterar Password
+              </button>
+            </div>
+
+            <div class="danger-zone">
+              <h3 class="danger-title">
+                <lucide-icon name="triangle-alert" [size]="16"></lucide-icon>
+                Zona de Perigo
+              </h3>
+              <p class="danger-desc">
+                Termina a sessão em todos os dispositivos.
+              </p>
+              <button class="btn-danger" (click)="logout()">
+                <lucide-icon name="log-out" [size]="14"></lucide-icon>
+                Terminar sessão
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</main>
