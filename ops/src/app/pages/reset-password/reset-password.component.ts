@@ -10,7 +10,7 @@ import { SupabaseService } from '../../services/supabase.service';
   standalone: true,
   imports: [CommonModule, FormsModule, LucideAngularModule],
   templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.css']
+  styleUrls: ['./reset-password.component.css'],
 })
 export class ResetPasswordComponent {
   password = '';
@@ -19,7 +19,10 @@ export class ResetPasswordComponent {
   errorMsg = signal('');
   successMsg = signal('');
 
-  constructor(private supabase: SupabaseService, private router: Router) { }
+  constructor(
+    private supabase: SupabaseService,
+    private router: Router,
+  ) {}
 
   async submit() {
     this.errorMsg.set('');

@@ -12,7 +12,7 @@ type AuthMode = 'login' | 'register' | 'reset';
   standalone: true,
   imports: [CommonModule, FormsModule, LucideAngularModule],
   templateUrl: './auth-modal.component.html',
-  styleUrls: ['./auth-modal.component.css']
+  styleUrls: ['./auth-modal.component.css'],
 })
 export class AuthModalComponent {
   @Output() close = new EventEmitter<void>();
@@ -21,12 +21,16 @@ export class AuthModalComponent {
   email = '';
   password = '';
   confirmPassword = '';
-  username = '';
+  primeiro_nome = '';
+  ultimo_nome = '';
   loading = signal(false);
   errorMsg = signal('');
   successMsg = signal('');
 
-  constructor(private supabase: SupabaseService, private toast: ToastService) { }
+  constructor(
+    private supabase: SupabaseService,
+    private toast: ToastService,
+  ) {}
 
   setMode(m: AuthMode) {
     this.errorMsg.set('');
@@ -34,8 +38,11 @@ export class AuthModalComponent {
     this.email = '';
     this.password = '';
     this.confirmPassword = '';
-    this.username = '';
-    setTimeout(() => { this.mode.set(m); }, 10);
+    this.primeiro_nome = '';
+    this.ultimo_nome = '';
+    setTimeout(() => {
+      this.mode.set(m);
+    }, 10);
   }
 
   async submit() {
@@ -64,8 +71,13 @@ export class AuthModalComponent {
       return;
     }
 
-    if (this.mode() === 'register' && !this.username) {
-      this.errorMsg.set('Preenche o teu username.');
+    if (this.mode() === 'register' && !this.primeiro_nome) {
+      this.errorMsg.set('Preenche o teu primeiro nome.');
+      return;
+    }
+
+    if (this.mode() === 'register' && !this.ultimo_nome) {
+      this.errorMsg.set('Preenche o teu último nome.');
       return;
     }
 
@@ -83,15 +95,23 @@ export class AuthModalComponent {
     try {
       if (this.mode() === 'login') {
         await this.supabase.signIn(this.email, this.password);
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const username = this.supabase.currentPerfil()?.username || this.email.split('@')[0];
-        this.toast.show(`Bem-vindo de volta, ${username} !`);
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        const nome =
+          this.supabase.currentPerfil()?.primeiro_nome ||
+          this.email.split('@')[0];
+        this.toast.show(`Bem-vindo de volta, ${nome} !`);
         this.close.emit();
       } else {
-        await this.supabase.signUp(this.email, this.password, this.username);
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const username = this.supabase.currentPerfil()?.username || this.email.split('@')[0];
-        this.toast.show(`Bem-vindo, ${username}! Conta criada com sucesso.`);
+        await this.supabase.signUp(
+          this.email,
+          this.password,
+          this.primeiro_nome,
+          this.ultimo_nome,
+        );
+        const nome =
+          this.supabase.currentPerfil()?.primeiro_nome ||
+          this.email.split('@')[0];
+        this.toast.show(`Bem-vindo, ${nome}! Conta criada com sucesso.`);
         this.close.emit();
       }
     } catch (err: any) {

@@ -8,7 +8,7 @@
       <p class="page-subtitle">Encontra o teu próximo campo de batalha</p>
     </div>
     @if (supabase.currentUser()) {
-      <button class="btn-criar">
+      <button class="btn-criar" [routerLink]="['/events/create']">
         <lucide-icon name="target" [size]="15"></lucide-icon>
         Criar Evento
       </button>
@@ -29,7 +29,7 @@
 
   @if (erro().length > 0) {
     <div class="alert alert-error">
-      <lucide-icon name="alert-circle" [size]="15"></lucide-icon>
+      <lucide-icon name="circle-alert" [size]="15"></lucide-icon>
       {{ erro() }}
     </div>
   }

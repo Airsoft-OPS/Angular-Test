@@ -236,7 +236,7 @@
   font-size: 0.9rem;
   color: var(--text-3);
   white-space: nowrap;
-  line-height: 0;
+  /* line-height: 0; */
 }
 
 .card-titulo {
