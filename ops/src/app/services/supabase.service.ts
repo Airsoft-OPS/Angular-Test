@@ -21,7 +21,12 @@ export class SupabaseService {
   constructor() {
     this.supabase = createClient(
       environment.supabaseUrl,
-      environment.supabaseKey
+      environment.supabaseKey,
+      {
+        auth: {
+          lock: (name, acquireTimeout, fn) => fn(), // 👈 fix do NavigatorLockAcquireTimeoutError
+        },
+      },
     );
 
     this.supabase.auth.getSession().then(({ data }) => {
@@ -42,23 +47,31 @@ export class SupabaseService {
   }
 
   // ── Auth ──────────────────────────────────────────────
-  async signUp(email: string, password: string, primeiro_nome: string, ultimo_nome: string) {
+  async signUp(
+    email: string,
+    password: string,
+    primeiro_nome: string,
+    ultimo_nome: string,
+  ) {
     const { data, error } = await this.supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { primeiro_nome, ultimo_nome }
-      }
+        data: { primeiro_nome, ultimo_nome },
+      },
     });
     if (error) throw error;
 
     await this.signIn(email, password);
-    
+
     return data;
   }
 
   async signIn(email: string, password: string) {
-    const { data, error } = await this.supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await this.supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
     if (error) throw error;
     return data;
   }
@@ -75,7 +88,7 @@ export class SupabaseService {
       email,
       username,
       tier: 'free',
-      avatar_url: ''
+      avatar_url: '',
     });
     if (error) throw error;
   }
@@ -94,14 +107,14 @@ export class SupabaseService {
 
   async resetPassword(email: string) {
     const { error } = await this.supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'http://localhost:4200/reset-password'
+      redirectTo: 'http://localhost:4200/reset-password',
     });
     if (error) throw error;
   }
 
   async updatePassword(newPassword: string) {
     const { error } = await this.supabase.auth.updateUser({
-      password: newPassword
+      password: newPassword,
     });
     if (error) throw error;
   }
@@ -132,11 +145,19 @@ export class SupabaseService {
   }
 
   async criarEvento(evento: any) {
-    const { data, error } = await this.supabase
-      .from('eventos')
-      .insert(evento);
+    const { data, error } = await this.supabase.from('eventos').insert(evento);
     if (error) throw error;
     return data;
+  }
+
+  // ── Image Storage ─────────────────────────────────────
+  async uploadEventoImagem(path: string, file: File) {
+    return await this.supabase.storage.from('eventos').upload(path, file);
+  }
+
+  getEventoImagemUrl(path: string): string {
+    return this.supabase.storage.from('eventos').getPublicUrl(path).data
+      .publicUrl;
   }
 
   async getSession() {

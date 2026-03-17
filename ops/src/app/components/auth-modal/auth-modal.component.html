@@ -1,129 +1,207 @@
 <div class="modal-backdrop" (click)="onBackdropClick($event)">
-    <div class="modal">
+  <div class="modal">
+    <button class="modal-close" (click)="close.emit()">
+      <lucide-icon name="x" [size]="16"></lucide-icon>
+    </button>
 
-        <button class="modal-close" (click)="close.emit()">
-            <lucide-icon name="x" [size]="16"></lucide-icon>
+    <div class="modal-header">
+      <div class="modal-logo">
+        <lucide-icon
+          name="crosshair"
+          [size]="24"
+          color="rgb(34,197,94)"
+        ></lucide-icon>
+      </div>
+      <h2 class="modal-title">
+        {{
+          mode() === "login"
+            ? "Bem-vindo de volta"
+            : mode() === "register"
+              ? "Criar conta"
+              : "Recuperar
+                password"
+        }}
+      </h2>
+      <p class="modal-subtitle">
+        {{
+          mode() === "login"
+            ? "Faz login para continuares"
+            : mode() === "register"
+              ? "Junta-te a nós hoje"
+              : "Envia-te um email de recuperação"
+        }}
+      </p>
+    </div>
+
+    <!-- Tabs (só login e register) -->
+    @if (mode() !== "reset") {
+      <div class="modal-tabs">
+        <button [class.active]="mode() === 'login'" (click)="setMode('login')">
+          Login
         </button>
+        <button
+          [class.active]="mode() === 'register'"
+          (click)="setMode('register')"
+        >
+          Registar
+        </button>
+        <div class="tab-indicator" [class.right]="mode() === 'register'"></div>
+      </div>
+    }
 
-        <div class="modal-header">
-            <div class="modal-logo">
-                <lucide-icon name="crosshair" [size]="24" color="rgb(34,197,94)"></lucide-icon>
+    <div class="modal-form">
+      <!-- Reset password view -->
+      @if (mode() === "reset") {
+        <div class="field">
+          <label>Email</label>
+          <div class="input-wrap">
+            <lucide-icon
+              name="mail"
+              [size]="15"
+              class="input-icon"
+            ></lucide-icon>
+            <input
+              type="email"
+              [(ngModel)]="email"
+              placeholder="o.teu@email.com"
+              [disabled]="loading()"
+            />
+          </div>
+        </div>
+      }
+
+      <!-- Login e Register fields -->
+      @if (mode() !== "reset") {
+        <div class="field">
+          <label>Email</label>
+          <div class="input-wrap">
+            <lucide-icon
+              name="mail"
+              [size]="15"
+              class="input-icon"
+            ></lucide-icon>
+            <input
+              type="email"
+              [(ngModel)]="email"
+              placeholder="o.teu@email.com"
+              [disabled]="loading()"
+            />
+          </div>
+        </div>
+
+        @if (mode() === "register") {
+          <div class="field">
+            <label>Primeiro Nome</label>
+            <div class="input-wrap">
+              <lucide-icon
+                name="user-round"
+                [size]="15"
+                class="input-icon"
+              ></lucide-icon>
+              <input
+                type="text"
+                [(ngModel)]="primeiro_nome"
+                placeholder="João"
+                [disabled]="loading()"
+              />
             </div>
-            <h2 class="modal-title">
-                {{ mode() === 'login' ? 'Bem-vindo de volta' : mode() === 'register' ? 'Criar conta' : 'Recuperar
-                password' }}
-            </h2>
-            <p class="modal-subtitle">
-                {{ mode() === 'login' ? 'Faz login para continuares' : mode() === 'register' ? 'Junta-te a nós hoje' :
-                'Envia-te um email de recuperação' }}
-            </p>
-        </div>
-
-        <!-- Tabs (só login e register) -->
-        @if (mode() !== 'reset') {
-        <div class="modal-tabs">
-            <button [class.active]="mode() === 'login'" (click)="setMode('login')">Login</button>
-            <button [class.active]="mode() === 'register'" (click)="setMode('register')">Registar</button>
-            <div class="tab-indicator" [class.right]="mode() === 'register'"></div>
-        </div>
+          </div>
+          <div class="field">
+            <label>Último Nome</label>
+            <div class="input-wrap">
+              <lucide-icon
+                name="user-round"
+                [size]="15"
+                class="input-icon"
+              ></lucide-icon>
+              <input
+                type="text"
+                [(ngModel)]="ultimo_nome"
+                placeholder="Silva"
+                [disabled]="loading()"
+              />
+            </div>
+          </div>
         }
 
-        <div class="modal-form">
-
-            <!-- Reset password view -->
-            @if (mode() === 'reset') {
-            <div class="field">
-                <label>Email</label>
-                <div class="input-wrap">
-                    <lucide-icon name="mail" [size]="15" class="input-icon"></lucide-icon>
-                    <input type="email" [(ngModel)]="email" placeholder="o.teu@email.com" [disabled]="loading()" />
-                </div>
-            </div>
-            }
-
-            <!-- Login e Register fields -->
-            @if (mode() !== 'reset') {
-            <div class="field">
-                <label>Email</label>
-                <div class="input-wrap">
-                    <lucide-icon name="mail" [size]="15" class="input-icon"></lucide-icon>
-                    <input type="email" [(ngModel)]="email" placeholder="o.teu@email.com" [disabled]="loading()" />
-                </div>
-            </div>
-
-            @if (mode() === 'register') {
-            <div class="field">
-                <label>Primeiro Nome</label>
-                <div class="input-wrap">
-                    <lucide-icon name="user-round" [size]="15" class="input-icon"></lucide-icon>
-                    <input type="text" [(ngModel)]="primeiro_nome" placeholder="João" [disabled]="loading()" />
-                </div>
-            </div>
-            <div class="field">
-                <label>Último Nome</label>
-                <div class="input-wrap">
-                    <lucide-icon name="user-round" [size]="15" class="input-icon"></lucide-icon>
-                    <input type="text" [(ngModel)]="ultimo_nome" placeholder="Silva" [disabled]="loading()" />
-                </div>
-            </div>
-            }
-
-            <div class="field">
-                <label>Password</label>
-                <div class="input-wrap">
-                    <lucide-icon name="key-round" [size]="15" class="input-icon"></lucide-icon>
-                    <input type="password" [(ngModel)]="password" placeholder="••••••••" [disabled]="loading()" />
-                </div>
-            </div>
-
-            @if (mode() === 'register') {
-            <div class="field">
-                <label>Confirmar Password</label>
-                <div class="input-wrap">
-                    <lucide-icon name="key-round" [size]="15" class="input-icon"></lucide-icon>
-                    <input type="password" [(ngModel)]="confirmPassword" placeholder="••••••••"
-                        [disabled]="loading()" />
-                </div>
-            </div>
-            }
-
-            <!-- Link esqueceste a password -->
-            @if (mode() === 'login') {
-            <button class="btn-forgot" (click)="setMode('reset')">
-                Esqueceste a password?
-            </button>
-            }
-            }
-
-            @if (errorMsg().length > 0 && !loading()) {
-            <div class="alert alert-error">
-                <lucide-icon name="alert-circle" [size]="15"></lucide-icon>
-                {{ errorMsg() }}
-            </div>
-            }
-            @if (successMsg().length > 0 && !loading()) {
-            <div class="alert alert-success">
-                <lucide-icon name="check-circle" [size]="15"></lucide-icon>
-                {{ successMsg() }}
-            </div>
-            }
-
-            <button class="btn-submit" (click)="submit()" [disabled]="loading()">
-                @if (loading()) {
-                <lucide-icon name="loader" [size]="16" class="spin"></lucide-icon>
-                } @else {
-                {{ mode() === 'login' ? 'Entrar' : mode() === 'register' ? 'Criar conta' : 'Enviar email' }}
-                }
-            </button>
-
-            <!-- Voltar ao login -->
-            @if (mode() === 'reset') {
-            <button class="btn-forgot" (click)="setMode('login')">
-                <lucide-icon name="chevron-right" [size]="13"></lucide-icon>
-                Voltar ao login
-            </button>
-            }
-
+        <div class="field">
+          <label>Password</label>
+          <div class="input-wrap">
+            <lucide-icon
+              name="key-round"
+              [size]="15"
+              class="input-icon"
+            ></lucide-icon>
+            <input
+              type="password"
+              [(ngModel)]="password"
+              placeholder="••••••••"
+              [disabled]="loading()"
+            />
+          </div>
         </div>
+
+        @if (mode() === "register") {
+          <div class="field">
+            <label>Confirmar Password</label>
+            <div class="input-wrap">
+              <lucide-icon
+                name="key-round"
+                [size]="15"
+                class="input-icon"
+              ></lucide-icon>
+              <input
+                type="password"
+                [(ngModel)]="confirmPassword"
+                placeholder="••••••••"
+                [disabled]="loading()"
+              />
+            </div>
+          </div>
+        }
+
+        <!-- Link esqueceste a password -->
+        @if (mode() === "login") {
+          <button class="btn-forgot" (click)="setMode('reset')">
+            Esqueceste a password?
+          </button>
+        }
+      }
+
+      @if (errorMsg().length > 0 && !loading()) {
+        <div class="alert alert-error">
+          <lucide-icon name="circle-alert" [size]="15"></lucide-icon>
+          {{ errorMsg() }}
+        </div>
+      }
+      @if (successMsg().length > 0 && !loading()) {
+        <div class="alert alert-success">
+          <lucide-icon name="check-circle" [size]="15"></lucide-icon>
+          {{ successMsg() }}
+        </div>
+      }
+
+      <button class="btn-submit" (click)="submit()" [disabled]="loading()">
+        @if (loading()) {
+          <lucide-icon name="loader" [size]="16" class="spin"></lucide-icon>
+        } @else {
+          {{
+            mode() === "login"
+              ? "Entrar"
+              : mode() === "register"
+                ? "Criar conta"
+                : "Enviar email"
+          }}
+        }
+      </button>
+
+      <!-- Voltar ao login -->
+      @if (mode() === "reset") {
+        <button class="btn-forgot" (click)="setMode('login')">
+          <lucide-icon name="chevron-right" [size]="13"></lucide-icon>
+          Voltar ao login
+        </button>
+      }
     </div>
+  </div>
 </div>

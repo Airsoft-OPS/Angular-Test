@@ -12,7 +12,7 @@ type AuthMode = 'login' | 'register' | 'reset';
   standalone: true,
   imports: [CommonModule, FormsModule, LucideAngularModule],
   templateUrl: './auth-modal.component.html',
-  styleUrls: ['./auth-modal.component.css']
+  styleUrls: ['./auth-modal.component.css'],
 })
 export class AuthModalComponent {
   @Output() close = new EventEmitter<void>();
@@ -27,7 +27,10 @@ export class AuthModalComponent {
   errorMsg = signal('');
   successMsg = signal('');
 
-  constructor(private supabase: SupabaseService, private toast: ToastService) { }
+  constructor(
+    private supabase: SupabaseService,
+    private toast: ToastService,
+  ) {}
 
   setMode(m: AuthMode) {
     this.errorMsg.set('');
@@ -37,7 +40,9 @@ export class AuthModalComponent {
     this.confirmPassword = '';
     this.primeiro_nome = '';
     this.ultimo_nome = '';
-    setTimeout(() => { this.mode.set(m); }, 10);
+    setTimeout(() => {
+      this.mode.set(m);
+    }, 10);
   }
 
   async submit() {
@@ -90,17 +95,25 @@ export class AuthModalComponent {
     try {
       if (this.mode() === 'login') {
         await this.supabase.signIn(this.email, this.password);
-        await new Promise(resolve => setTimeout(resolve, 500));
-        const nome = this.supabase.currentPerfil()?.primeiro_nome || this.email.split('@')[0];
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        const nome =
+          this.supabase.currentPerfil()?.primeiro_nome ||
+          this.email.split('@')[0];
         this.toast.show(`Bem-vindo de volta, ${nome} !`);
         this.close.emit();
       } else {
-        await this.supabase.signUp(this.email, this.password, this.primeiro_nome, this.ultimo_nome);
-        const nome = this.supabase.currentPerfil()?.primeiro_nome || this.email.split('@')[0];
+        await this.supabase.signUp(
+          this.email,
+          this.password,
+          this.primeiro_nome,
+          this.ultimo_nome,
+        );
+        const nome =
+          this.supabase.currentPerfil()?.primeiro_nome ||
+          this.email.split('@')[0];
         this.toast.show(`Bem-vindo, ${nome}! Conta criada com sucesso.`);
         this.close.emit();
       }
-
     } catch (err: any) {
       this.errorMsg.set(err.message || 'Ocorreu um erro. Tenta novamente.');
     } finally {

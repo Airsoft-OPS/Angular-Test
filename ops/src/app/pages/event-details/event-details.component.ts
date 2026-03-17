@@ -37,7 +37,7 @@ export interface EventDetail {
   standalone: true,
   imports: [CommonModule, FormsModule, LucideAngularModule, RouterModule],
   templateUrl: './event-details.component.html',
-  styleUrls: ['./event-details.component.css']
+  styleUrls: ['./event-details.component.css'],
 })
 export class EventDetailsComponent implements OnInit {
   event = signal<EventDetail | null>(null);
@@ -74,12 +74,15 @@ export class EventDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    public supabase: SupabaseService
+    public supabase: SupabaseService,
   ) {}
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
-    if (!id) { this.router.navigate(['/events']); return; }
+    if (!id) {
+      this.router.navigate(['/events']);
+      return;
+    }
 
     try {
       await this.loadEvent(id);
@@ -139,14 +142,20 @@ export class EventDetailsComponent implements OnInit {
           .eq('event_id', e.id)
           .eq('user_id', user.id);
         this.registered.set(false);
-        this.event.update(ev => ev ? { ...ev, slots_taken: Math.max(0, (ev.slots_taken ?? 0) - 1) } : ev);
+        this.event.update((ev) =>
+          ev
+            ? { ...ev, slots_taken: Math.max(0, (ev.slots_taken ?? 0) - 1) }
+            : ev,
+        );
         this.registerMsg.set('Inscrição cancelada.');
       } else {
         await (this.supabase as any).supabase
           .from('registrations')
           .insert({ event_id: e.id, user_id: user.id });
         this.registered.set(true);
-        this.event.update(ev => ev ? { ...ev, slots_taken: (ev.slots_taken ?? 0) + 1 } : ev);
+        this.event.update((ev) =>
+          ev ? { ...ev, slots_taken: (ev.slots_taken ?? 0) + 1 } : ev,
+        );
         this.registerMsg.set('Inscrição confirmada!');
       }
     } catch {
@@ -162,8 +171,14 @@ export class EventDetailsComponent implements OnInit {
     const e = this.event();
     if (!user || !e) return;
 
-    if (this.newRating() === 0) { this.reviewError.set('Seleciona uma classificação.'); return; }
-    if (!this.newComment.trim()) { this.reviewError.set('Escreve um comentário.'); return; }
+    if (this.newRating() === 0) {
+      this.reviewError.set('Seleciona uma classificação.');
+      return;
+    }
+    if (!this.newComment.trim()) {
+      this.reviewError.set('Escreve um comentário.');
+      return;
+    }
 
     this.reviewLoading.set(true);
     this.reviewError.set('');
@@ -173,7 +188,9 @@ export class EventDetailsComponent implements OnInit {
         event_id: e.id,
         user_id: user.id,
         nome: profile?.primeiro_nome || user.email?.split('@')[0] || 'Anónimo',
-        avatar_initial: (profile?.primeiro_nome || user.email || 'A')[0].toUpperCase(),
+        avatar_initial: (profile?.primeiro_nome ||
+          user.email ||
+          'A')[0].toUpperCase(),
         rating: this.newRating(),
         comment: this.newComment.trim(),
       };
@@ -184,7 +201,7 @@ export class EventDetailsComponent implements OnInit {
         .single();
       if (error) throw error;
 
-      this.reviews.update(r => [data, ...r]);
+      this.reviews.update((r) => [data, ...r]);
       this.newRating.set(0);
       this.newComment = '';
       this.reviewSuccess.set('Review submetida com sucesso!');
@@ -198,7 +215,11 @@ export class EventDetailsComponent implements OnInit {
 
   // Helpers
   getTierLabel(tier: string): string {
-    const map: Record<string, string> = { free: 'Free', pro: 'Pro', 'pro+': 'Pro+' };
+    const map: Record<string, string> = {
+      free: 'Free',
+      pro: 'Pro',
+      'pro+': 'Pro+',
+    };
     return map[tier] || tier;
   }
 
@@ -208,14 +229,20 @@ export class EventDetailsComponent implements OnInit {
 
   formatDate(date: string): string {
     return new Date(date).toLocaleDateString('pt-PT', {
-      weekday: 'long', day: '2-digit', month: 'long', year: 'numeric',
-      hour: '2-digit', minute: '2-digit'
+      weekday: 'long',
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   }
 
   formatDateShort(date: string): string {
     return new Date(date).toLocaleDateString('pt-PT', {
-      day: '2-digit', month: 'short', year: 'numeric'
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
     });
   }
 

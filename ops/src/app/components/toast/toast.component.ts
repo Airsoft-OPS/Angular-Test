@@ -8,16 +8,16 @@ import { ToastService, Toast } from '../../services/toast.service';
   standalone: true,
   imports: [CommonModule, LucideAngularModule],
   templateUrl: './toast.component.html',
-  styleUrls: ['./toast.component.css']
+  styleUrls: ['./toast.component.css'],
 })
 export class ToastComponent {
-  constructor(public toastService: ToastService) { }
+  constructor(public toastService: ToastService) {}
 
   getIcon(type: string): string {
     const icons: any = {
       success: 'check-circle',
-      error: 'alert-circle',
-      info: 'info'
+      error: 'circle-alert',
+      info: 'info',
     };
     return icons[type] || 'info';
   }

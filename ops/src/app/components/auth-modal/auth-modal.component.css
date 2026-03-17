@@ -1,269 +1,271 @@
 .modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    padding: 16px;
-    animation: fadeIn 0.2s ease;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(24px) scale(0.97);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
 
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .modal {
-    background: #16161f;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 20px;
-    width: 100%;
-    max-width: 420px;
-    padding: 36px 32px 32px;
-    position: relative;
-    animation: slideUp 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: #16161f;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  padding: 36px 32px 32px;
+  position: relative;
+  animation: slideUp 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .modal-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    background: #1a1a24;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 8px;
-    color: #9b97b8;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #1a1a24;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  color: #9b97b8;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .modal-close:hover {
-    color: #f0eeff;
+  color: #f0eeff;
 }
 
 .modal-header {
-    text-align: center;
-    margin-bottom: 28px;
+  text-align: center;
+  margin-bottom: 28px;
 }
 
 .modal-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #f0eeff;
-    margin-bottom: 4px;
+  font-family: "Syne", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f0eeff;
+  margin-bottom: 4px;
 }
 
 .modal-subtitle {
-    font-size: 0.875rem;
-    color: #9b97b8;
+  font-size: 0.875rem;
+  color: #9b97b8;
 }
 
 .modal-tabs {
-    display: flex;
-    background: #1a1a24;
-    border-radius: 10px;
-    padding: 4px;
-    margin-bottom: 24px;
-    position: relative;
+  display: flex;
+  background: #1a1a24;
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 24px;
+  position: relative;
 }
 
 .modal-tabs button {
-    flex: 1;
-    padding: 8px;
-    background: transparent;
-    border: none;
-    color: #5c5878;
-    font-size: 0.875rem;
-    font-weight: 500;
-    border-radius: 7px;
-    cursor: pointer;
-    z-index: 1;
-    position: relative;
-    transition: color 0.2s ease;
+  flex: 1;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  color: #5c5878;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 7px;
+  cursor: pointer;
+  z-index: 1;
+  position: relative;
+  transition: color 0.2s ease;
 }
 
 .modal-tabs button.active {
-    color: #f0eeff;
+  color: #f0eeff;
 }
 
 .tab-indicator {
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    width: calc(50% - 4px);
-    height: calc(100% - 8px);
-    background: #1e1e2a;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 7px;
-    transition: transform 0.25s ease;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  background: #1e1e2a;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 7px;
+  transition: transform 0.25s ease;
 }
 
 .tab-indicator.right {
-    transform: translateX(100%);
+  transform: translateX(100%);
 }
 
 .modal-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .field label {
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #9b97b8;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #9b97b8;
 }
 
 .field input {
-    padding: 10px 12px;
-    background: #1a1a24;
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 12px;
-    color: #f0eeff;
-    font-size: 0.9rem;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  padding: 10px 12px;
+  background: #1a1a24;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  color: #f0eeff;
+  font-size: 0.9rem;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .field input:focus {
-    outline: none;
-    border-color: rgb(34, 197, 94);
-    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+  outline: none;
+  border-color: rgb(34, 197, 94);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
 }
 
 .field input::placeholder {
-    color: #5c5878;
+  color: #5c5878;
 }
 
 .field input:disabled {
-    opacity: 0.5;
+  opacity: 0.5;
 }
 
 .alert {
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-size: 0.83rem;
-    font-weight: 500;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.83rem;
+  font-weight: 500;
 }
 
 .alert-error {
-    background: rgba(248, 113, 113, 0.1);
-    color: #f87171;
-    border: 1px solid rgba(248, 113, 113, 0.2);
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.2);
 }
 
 .alert-success {
-    background: rgba(52, 211, 153, 0.1);
-    color: #34d399;
-    border: 1px solid rgba(52, 211, 153, 0.2);
+  background: rgba(52, 211, 153, 0.1);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.2);
 }
 
 .btn-submit {
-    width: 100%;
-    padding: 12px;
-    background: rgb(34, 197, 94);
-    color: #fff;
-    font-size: 0.9rem;
-    font-weight: 600;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 4px;
+  width: 100%;
+  padding: 12px;
+  background: rgb(34, 197, 94);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
 }
 
 .btn-submit:hover:not(:disabled) {
-    background: rgb(74, 222, 128);
-    transform: translateY(-1px);
+  background: rgb(74, 222, 128);
+  transform: translateY(-1px);
 }
 
 .btn-submit:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .input-wrap {
-    position: relative;
-    display: flex;
-    align-items: center;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .input-icon {
-    position: absolute;
-    left: 12px;
-    color: #5a8a68;
-    pointer-events: none;
-    display: flex;
+  position: absolute;
+  left: 12px;
+  color: #5a8a68;
+  pointer-events: none;
+  display: flex;
 }
 
 .input-wrap input {
-    width: 100%;
-    padding: 10px 12px 10px 38px;
+  width: 100%;
+  padding: 10px 12px 10px 38px;
 }
 
 .spin {
-    animation: spin 0.8s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 .btn-forgot {
-    background: transparent;
-    border: none;
-    color: var(--text-3);
-    font-size: 0.8rem;
-    cursor: pointer;
-    text-align: left;
-    padding: 0;
-    transition: color 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  background: transparent;
+  border: none;
+  color: var(--text-3);
+  font-size: 0.8rem;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .btn-forgot:hover {
-    color: rgb(34, 197, 94);
+  color: rgb(34, 197, 94);
 }

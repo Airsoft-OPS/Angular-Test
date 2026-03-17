@@ -9,4 +9,4 @@ import { ToastComponent } from './components/toast/toast.component';
   imports: [RouterOutlet, NavbarComponent, ToastComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent { }
+export class AppComponent {}

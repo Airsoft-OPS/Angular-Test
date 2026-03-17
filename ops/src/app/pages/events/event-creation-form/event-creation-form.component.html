@@ -1,0 +1,220 @@
+<main class="evento-form-page">
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-grid"></div>
+
+  <div class="page-header">
+    <div class="header-text">
+      <h1 class="page-title">Criar <span class="accent">Evento</span></h1>
+      <p class="page-subtitle">Organiza o teu próximo campo de batalha</p>
+    </div>
+    <button class="btn-back" [routerLink]="['/eventos']">
+      <lucide-icon name="arrow-left" [size]="15"></lucide-icon>
+      Voltar
+    </button>
+  </div>
+
+  @if (erro().length > 0) {
+    <div class="alert alert-error">
+      <lucide-icon name="circle-alert" [size]="15"></lucide-icon>
+      {{ erro() }}
+    </div>
+  }
+
+  <div class="form-card">
+    <!-- Informação Geral -->
+    <div class="form-section">
+      <h2 class="section-title">
+        <lucide-icon name="info" [size]="16"></lucide-icon>
+        Informação Geral
+      </h2>
+
+      <div class="field">
+        <label>Título do Evento <span class="required">*</span></label>
+        <div class="input-wrap">
+          <lucide-icon
+            name="target"
+            [size]="15"
+            class="input-icon"
+          ></lucide-icon>
+          <input
+            type="text"
+            placeholder="Ex: Operação Tempestade"
+            [(ngModel)]="form().titulo"
+          />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Descrição</label>
+        <textarea
+          placeholder="Descreve o evento, regras, equipamento necessário..."
+          [(ngModel)]="form().descricao"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="field">
+        <label>Imagem do Evento</label>
+        <div
+          class="image-upload-area"
+          [class.has-image]="imagePreview()"
+          (click)="fileInput.click()"
+          (dragover)="$event.preventDefault()"
+          (drop)="onDrop($event)"
+        >
+          @if (imagePreview()) {
+            <img [src]="imagePreview()" class="image-preview" alt="Preview" />
+            <div class="image-overlay">
+              <button class="btn-change-image">
+                <lucide-icon name="image-plus" [size]="14"></lucide-icon>
+                Alterar imagem
+              </button>
+            </div>
+            <button class="btn-remove-image" (click)="removeImage($event)">
+              <lucide-icon name="x" [size]="13"></lucide-icon>
+            </button>
+          } @else {
+            <div class="upload-placeholder">
+              <div class="upload-icon-ring">
+                <lucide-icon
+                  name="image-plus"
+                  [size]="22"
+                  color="var(--accent-2)"
+                ></lucide-icon>
+              </div>
+              <div class="upload-text">
+                <p>
+                  Arrasta uma imagem ou
+                  <span class="upload-link">clica para escolher</span>
+                </p>
+                <span>PNG, JPG, WEBP — máx. 5MB</span>
+              </div>
+            </div>
+          }
+        </div>
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          style="display: none"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+    </div>
+
+    <!-- Local & Data -->
+    <div class="form-section">
+      <h2 class="section-title">
+        <lucide-icon name="map-pin" [size]="16"></lucide-icon>
+        Local & Data
+      </h2>
+
+      <div class="field">
+        <label>Localização <span class="required">*</span></label>
+        <div class="input-wrap">
+          <lucide-icon
+            name="map-pin"
+            [size]="15"
+            class="input-icon"
+          ></lucide-icon>
+          <input
+            type="text"
+            placeholder="Ex: Campo Táctico de Braga"
+            [(ngModel)]="form().localizacao"
+          />
+        </div>
+      </div>
+
+      <div class="fields-row">
+        <div class="field">
+          <label>Data e Hora <span class="required">*</span></label>
+          <div class="input-wrap">
+            <lucide-icon
+              name="clock"
+              [size]="15"
+              class="input-icon"
+            ></lucide-icon>
+            <input type="datetime-local" [(ngModel)]="form().data_evento" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Vagas <span class="required">*</span></label>
+          <div class="input-wrap">
+            <lucide-icon
+              name="users"
+              [size]="15"
+              class="input-icon"
+            ></lucide-icon>
+            <input
+              type="number"
+              placeholder="Ex: 30"
+              [(ngModel)]="form().vagas"
+              min="1"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acesso & Tier -->
+    <div class="form-section">
+      <h2 class="section-title">
+        <lucide-icon name="shield" [size]="16"></lucide-icon>
+        Acesso & Tier
+      </h2>
+
+      <div class="fields-row">
+        <div class="field">
+          <label>Tier Mínimo <span class="required">*</span></label>
+          <div class="select-wrap">
+            <lucide-icon
+              name="shield"
+              [size]="15"
+              class="input-icon"
+            ></lucide-icon>
+            <select [(ngModel)]="form().tier_minimo">
+              <option value="" disabled>Seleciona um tier</option>
+              <option value="free">Free</option>
+              <option value="pro">Pro</option>
+              <option value="pro+">Pro+</option>
+            </select>
+            <lucide-icon
+              name="chevron-down"
+              [size]="14"
+              class="select-arrow"
+            ></lucide-icon>
+          </div>
+        </div>
+
+        <div class="field field-toggle">
+          <label>Evento Privado</label>
+          <button
+            class="toggle"
+            [class.active]="form().privado"
+            (click)="togglePrivado()"
+          >
+            <span class="toggle-knob"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <p class="required-note">
+      <span class="required">*</span> Campos obrigatórios
+    </p>
+
+    <div class="form-actions">
+      <button class="btn-cancel" [routerLink]="['/eventos']">Cancelar</button>
+      <button class="btn-submit" (click)="submit()" [disabled]="loading()">
+        @if (loading()) {
+          <lucide-icon name="loader" [size]="15" class="spin"></lucide-icon>
+          A criar...
+        } @else {
+          <lucide-icon name="target" [size]="15"></lucide-icon>
+          Criar Evento
+        }
+      </button>
+    </div>
+  </div>
+</main>
